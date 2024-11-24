@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Visualization with Flask</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Data Visualization with Flask</h1>
+    <form method="POST" action="/">
+        <div>
+            <label for="categories">Categories (comma-separated):</label>
+            <input type="text" name="categories" required>
+        </div>
+        <div>
+            <label for="values">Values (comma-separated):</label>
+            <input type="text" name="values" required>
+        </div>
+        <button type="submit">Generate Bar Chart</button>
+    </form>
+    <div class="chart-container">
+        {% if chart_url %}
+            <img src="{{ chart_url }}" alt="Bar Chart">
+        {% endif %}
+    </div>
+</body>
+</html>
