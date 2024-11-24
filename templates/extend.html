@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Visualization with Flask: Extended Functionality</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+<h1>More Data Visualization with Flask</h1>
+    <form method="POST" action="/extend">
+        <div>
+            <label for="seed">seed (single integer):</label>
+            <input type="number" name="seed" required>
+        </div>
+        <div>
+            <label for="octaves">octaves (single integer)):</label>
+            <input type="number" name="octaves" required>
+        </div>
+        <div align="right">
+            <a href="{{ url_for('index')}}">Back to basic project</a>
+        </div>
+        <button type="submit">Generate height map</button>
+    </form>
+    <div class="chart-container">
+        {% if error_text %}
+            <p style="color:red;"> {{ error_text }}</p>
+        {% endif %}
+        {% if map_chart_url %}
+            <img src="{{ map_chart_url }}" alt="Height Map Chart">
+        {% endif %}
+    </div>
+</body>
+</html>
