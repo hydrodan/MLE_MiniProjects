@@ -1,0 +1,13 @@
+!pip install perlin-noise
+
+from perlin_noise import PerlinNoise
+import matplotlib.pyplot as plt
+
+size = 5
+seed = 42
+
+noise = PerlinNoise(seed=seed)
+xpix = ypix = 100
+pic_2D = [[noise([i/xpix, j/ypix]) for j in range(ypix)] for i in range(xpix)]
+plt.imshow(pic_2D, cmap='gray')
+plt.show()
