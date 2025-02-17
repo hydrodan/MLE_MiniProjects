@@ -1,5 +1,10 @@
 *.parquet
 *.pkl
 *.zip
+*.bak
+.idea
+.ipynb_checkpoints
 capstone/step4/avroll.csv
 /capstone/mysql_creds.ini
+adult.data
+ml-100k/
