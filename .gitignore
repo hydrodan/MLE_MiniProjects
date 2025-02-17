@@ -1,1 +1,5 @@
-yellow_tripdata_2022-01.parquet
+*.parquet
+*.pkl
+*.zip
+capstone/step4/avroll.csv
+/capstone/mysql_creds.ini
