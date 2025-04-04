@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Capstone deployment with Flask</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Capstone deployment with Flask</h1>
+
+    {% if results %}
+    <H3>Model Results</H3>
+    <div class="model-container">
+            <p>The model predicts of Operator being at risk of fines for idle well: <b>{{ results[0]['prediction_string'] }}</b>
+            with a {% print("{:.1%}".format(results[0]['confidence'])) %} confidence</p>
+    </div>
+    <div class="model-detail">
+        <table>
+            <tr><td>API-10: </td><td>{{ results[0]['api10'] }}</td></tr>
+            <tr><td>County: </td><td>{{ results[0]['county'] }}</td></tr>
+            <tr><td>Operator Size: </td><td>{{ results[0]['operator_size'] }} wells</td></tr>
+            <tr><td>Idle Year: </td><td>{{ "%d"|format(results[0]['idle_year']) }}</td></tr>
+            <tr><td>SPUD Year: </td><td>{{ "%d"|format(results[0]['spud_year']) }}</td></tr>
+            <tr><td>Well Status: </td><td>{{ results[0]['well_status'] }}</td></tr>
+            <tr><td>Well Type: </td><td>{{ results[0]['well_type'] }}</td></tr>
+        </table>
+    </div>
+    <div class="bar-chart">
+        {% if bar_chart %}
+            <img src="{{ bar_chart }}" alt="Bar chart of probabilities" />
+        {% endif %}
+    </div>
+    <div>
+        <b>External links</b>
+        <ul>
+            <li><a href="https://wellstar-public.conservation.ca.gov/Well/Well/Detail?api={{ results[0]['api10'] }}">Well record online</a></li>
+            <li><a href="https://wellstar-public.conservation.ca.gov/common/GIS/Index?Id={{ results[0]['api10'] }}&Type=Well">Well record online</a></li>
+            <li><a href="https://maps.conservation.ca.gov/doggr/wellfinder/?api={{ results[0]['api10'] }}">Location on GIS Map</a></li>
+            <li><a href="https://filerequest.conservation.ca.gov/WellRecord?api={{ results[0]['api10'][2:10] }}">Well records for download</a></li>
+        </ul>
+    </div>
+    {% endif %}
+
+    <H2>Run the model</H2>
+    <p><a href="https://maps.conservation.ca.gov/doggr/wellfinder/">Find a well by zooming into a location on this map
+        maintained by the state regulators.</a></p>
+
+    <p>When you have found an unplugged well of interest (Well Status should not be of type "Plugged"),
+        by clicking on one of the map dots as seen below:
+        <img src="{{ url_for('static', filename='images/calgem_well_detail_example.png') }}"
+            alt="screengrab of GIS map from CalGEM wellfinder web app"
+            width="450px" height="450px" style="display: block;"/></p>
+
+    <p>Enter the API number below to run the model for your well.</p>
+
+    <form method="POST" action="/">
+        <div>
+            <label>API Number (10 digits with leading zero): </label>
+            <input type="text" name="api10" required>
+        </div>
+        <button type="submit">Predict Risk</button>
+    </form>
+</body>
+</html>
